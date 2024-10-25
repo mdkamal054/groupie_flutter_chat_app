@@ -7,7 +7,6 @@ import 'package:groupie_flutter_chat_app/shared/constant.dart';
 import 'firebase_options.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -24,7 +23,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   bool isSignedIn = false;
 
   @override
@@ -34,13 +32,12 @@ class _MyAppState extends State<MyApp> {
     getUserLogdingStatus();
   }
 
-  void getUserLogdingStatus() async{
-
+  void getUserLogdingStatus() async {
     await HelperFunctions.getUserLoggedInStatus().then((value) {
-      if(value != null){
-       setState(() {
-         isSignedIn = value;
-       });
+      if (value != null) {
+        setState(() {
+          isSignedIn = value;
+        });
       }
     });
   }
@@ -49,11 +46,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: Constant().primaryColor,
-        scaffoldBackgroundColor: Colors.white
-      ),
+          primaryColor: Constant().primaryColor,
+          scaffoldBackgroundColor: Colors.white),
       debugShowCheckedModeBanner: false,
-      home: isSignedIn? const HomeScreen() : const LoginPage(),
+      home: isSignedIn ? const HomeScreen() : const LoginPage(),
     );
   }
 }

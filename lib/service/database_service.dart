@@ -24,74 +24,70 @@ class DatabaseService {
   }
 
   // getting user data
-  Future getUserData(String email) async{
-    QuerySnapshot querySnapshot = await userCollectionRef.where(
-      "email",isEqualTo: email
-    ).get();
+  Future getUserData(String email) async {
+    QuerySnapshot querySnapshot =
+        await userCollectionRef.where("email", isEqualTo: email).get();
     return querySnapshot;
   }
 
   // getting user groups
-    getUserGroups() async{
-
+  getUserGroups() async {
     return userCollectionRef.doc(uid).snapshots();
+  }
 
-   }
-
-   Future createGroup(String userName, String id,String groupName) async{
-
+  Future createGroup(String userName, String id, String groupName) async {
     // this will create a group
     DocumentReference reference = await groupCollection.add({
-      "groupName" : groupName,
-      "groupIcon" : "",
-      "admin" : "${id}_$userName",
-      "members":[],
-      "groupId":"",
-      "recentMessage":"",
-      "recentMessageSender" :"",
+      "groupName": groupName,
+      "groupIcon": "",
+      "admin": "${id}_$userName",
+      "members": [],
+      "groupId": "",
+      "recentMessage": "",
+      "recentMessageSender": "",
     });
 
     // this will update the member
     await reference.update({
-      "members" : FieldValue.arrayUnion(["${uid}_$userName"]),
-      "groupId" : reference.id
+      "members": FieldValue.arrayUnion(["${uid}_$userName"]),
+      "groupId": reference.id
     });
-
 
     // update the user joined group list
 
-     DocumentReference usrRef =  userCollectionRef.doc(uid);
-     
-     return await usrRef.update({
-       "groups" : FieldValue.arrayUnion(["${reference.id}_$groupName"])
-     });
+    DocumentReference usrRef = userCollectionRef.doc(uid);
 
-   }
+    return await usrRef.update({
+      "groups": FieldValue.arrayUnion(["${reference.id}_$groupName"])
+    });
+  }
 
-   // get chats
+  // get chats
 
-   getChats(String groupId) async{
-    return groupCollection.doc(groupId).collection("messages").orderBy("time").snapshots();
-   }
+  getChats(String groupId) async {
+    return groupCollection
+        .doc(groupId)
+        .collection("messages")
+        .orderBy("time")
+        .snapshots();
+  }
 
-   Future getGroupAdmin(String groupId) async{
+  Future getGroupAdmin(String groupId) async {
     DocumentReference d = groupCollection.doc(groupId);
     DocumentSnapshot documentSnapshot = await d.get();
 
     return documentSnapshot["admin"];
-   }
+  }
 
-   // getting group members
-   getGroupMembers(groupId) async{
-
+  // getting group members
+  getGroupMembers(groupId) async {
     return groupCollection.doc(groupId).snapshots();
+  }
 
-   }
-
-   // search
-   searchByName(String groupName){
-    return groupCollection.where("groupName",isEqualTo: groupName).get();
-   }
+  // search
+  searchByName(String groupName) {
+    return groupCollection.where("groupName", isEqualTo: groupName).get();
+  }
 
   // function -> bool
   Future<bool> isUserJoined(
@@ -137,12 +133,11 @@ class DatabaseService {
 
   // send message
   sendMessage(String groupId, Map<String, dynamic> chatMessageData) async {
-    groupCollection.doc(groupId).collection("messages").add(chatMessageData);
-    groupCollection.doc(groupId).update({
+   await groupCollection.doc(groupId).collection("messages").add(chatMessageData);
+  await  groupCollection.doc(groupId).update({
       "recentMessage": chatMessageData['message'],
       "recentMessageSender": chatMessageData['sender'],
       "recentMessageTime": chatMessageData['time'].toString(),
     });
   }
-
 }

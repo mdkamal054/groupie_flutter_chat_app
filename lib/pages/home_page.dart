@@ -254,7 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor),
+                      backgroundColor: Theme.of(context).primaryColor),
                   child: const Text(
                     "CANCEL",
                   ),
@@ -281,7 +281,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor),
+                      backgroundColor: Theme.of(context).primaryColor),
                   child: const Text(
                     "CREATE",
                   ),
@@ -304,9 +304,8 @@ class _HomeScreenState extends State<HomeScreen> {
               return ListView.builder(
                 itemCount: snapshot.data["groups"].length,
                 itemBuilder: (context, index) {
-                  int reverseIndex = snapshot.data["groups"].length - index-1;
+                  int reverseIndex = snapshot.data["groups"].length - index - 1;
                   return GroupTile(
-
                       groupId: getId(snapshot.data["groups"][reverseIndex]),
                       groupName: getName(snapshot.data["groups"][reverseIndex]),
                       userName: snapshot.data["fullName"]);
