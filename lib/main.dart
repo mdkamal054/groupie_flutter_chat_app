@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:groupie_flutter_chat_app/firebase_options.dart';
 import 'package:groupie_flutter_chat_app/helper/helper_function.dart';
 import 'package:groupie_flutter_chat_app/pages/auth/login_page.dart';
 import 'package:groupie_flutter_chat_app/pages/home_page.dart';
 import 'package:groupie_flutter_chat_app/shared/constant.dart';
-import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

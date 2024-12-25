@@ -18,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   AuthService authService = AuthService();
-  String userName = "";
+  String userName = " ";
   String email = "";
   Stream? groups;
   bool _isLoading = false;
@@ -42,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void gettingUserData() async {
     await HelperFunctions.getUserName().then((value) {
       setState(() {
+        value ?? (value = "random");
         userName = value!;
       });
     });

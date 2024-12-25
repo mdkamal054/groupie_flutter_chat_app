@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 
 class MessageTile extends StatefulWidget {
   final String message;
+  final String imageUrl;
+  final bool isMedia;
   final String sender;
   final bool sentByMe;
 
-  const MessageTile(
+  MessageTile(
       {Key? key,
       required this.message,
       required this.sender,
-      required this.sentByMe})
+      required this.sentByMe,
+      required this.imageUrl,
+      required this.isMedia})
       : super(key: key);
 
   @override
@@ -27,6 +31,7 @@ class _MessageTileState extends State<MessageTile> {
           right: widget.sentByMe ? 24 : 0),
       alignment: widget.sentByMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
+
         margin: widget.sentByMe
             ? const EdgeInsets.only(left: 30)
             : const EdgeInsets.only(right: 30),
@@ -62,9 +67,22 @@ class _MessageTileState extends State<MessageTile> {
             const SizedBox(
               height: 8,
             ),
-            Text(widget.message,
-                textAlign: TextAlign.start,
-                style: const TextStyle(fontSize: 16, color: Colors.white))
+            widget.imageUrl ==
+                    "https://cdn.britannica.com/70/234870-050-D4D024BB/Orange-colored-cat-yawns-displaying-teeth.jpg"
+                ? Text(widget.message,
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(fontSize: 16, color: Colors.white))
+                : SizedBox(
+                    width: 300,
+                    height: 300,
+                    child: Image.network(
+                      errorBuilder: (BuildContext context, Object error,
+                          StackTrace? stackTrace) {
+                        return Container();
+                      },
+                      widget.imageUrl,
+                    ),
+                  )
           ],
         ),
       ),
